@@ -11,21 +11,24 @@ const tailLayout = {
 };
 
 class Login extends Component {
-    onFinish = async(values) => {
-        console.log('Success:', values);
-        let params = {
-            account: values.username,
-            password: values.password,
-            type: values.remember?1:0
-        }
-        try{
-            const { message } = await login(params);
-            message.info(message,100)
-        }catch({mesg}){
-            message.info(mesg,1000)
-        }
-    };
     render() {
+        const onFinish = values => {
+            console.log('Success:', values);
+            let params = {
+                account: values.username,
+                password: values.password,
+                type: values.remember?1:0
+            }
+            login(params).then((data)=>{
+                console.log(data,'成功登陆')
+            },(data)=>{
+                if (data.messageCode !== 'netError' && data.messageCode !== 'sysError' && data.messageCode !== 'timeout') {
+                    //此处是对除了以上几个系统异常意外的业务异常的处理
+                    message.info(data.message, commonInfo.showToastTime);
+                }
+            })
+        };
+
         const onFinishFailed = errorInfo => {
             console.log('Failed:', errorInfo);
         };
@@ -36,7 +39,7 @@ class Login extends Component {
                     {...layout}
                     name="basic"
                     initialValues={{ remember: true }}
-                    onFinish={this.onFinish}
+                    onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                 >
                     <Form.Item

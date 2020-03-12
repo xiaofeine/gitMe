@@ -11,21 +11,22 @@ const tailLayout = {
 };
 
 class Login extends Component {
-    onFinish = async(values) => {
-        console.log('Success:', values);
-        let params = {
-            account: values.username,
-            password: values.password,
-            type: values.remember?1:0
-        }
-        try{
-            const { message } = await login(params);
-            message.info(message,100)
-        }catch({mesg}){
-            message.info(mesg,1000)
-        }
-    };
     render() {
+        onFinish = async(values) => {
+            console.log('Success:', values);
+            let params = {
+                account: values.username,
+                password: values.password,
+                type: values.remember?1:0
+            }
+            try{
+                const { message } = await login(params);
+                message.info(message,100)
+            }catch({mesg}){
+                message.info(mesg,1000)
+            }
+        };
+
         const onFinishFailed = errorInfo => {
             console.log('Failed:', errorInfo);
         };

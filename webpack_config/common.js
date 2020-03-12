@@ -22,14 +22,8 @@ module.exports = {
             loader: 'babel-loader',
             exclude: /node_modules/
         },{
-            //转换css文件
-            test: /\.css$/,
-            use:"style-loader!css-loader"
-        }, {
-            //转换scss文件
-            test: /\.scss$/,
-            use:["style-loader","css-loader","sass-loader"]
-           // 加载时顺序从右向左 
+            test: /\.(css|less)$/,
+            use: [prodMode ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'less-loader'],
         },
         {
             // 转换文件png|svg|jpg|gif

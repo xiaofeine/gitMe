@@ -26,6 +26,8 @@ class Login extends Component {
         }
     };
     render() {
+        
+
         const onFinishFailed = errorInfo => {
             console.log('Failed:', errorInfo);
         };
